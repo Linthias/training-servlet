@@ -1,12 +1,15 @@
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class RequestViewer {
     private final static String EQUAL_DELIMITER = " = ";
     private final static String COMMA_DELIMITER = ", ";
     private final static String SEMICOLON_DELIMITER = "; ";
+    private final static List<String> history = new LinkedList<>();
 
     public void viewRequest(HttpServletRequest request) {
         StringBuilder response = new StringBuilder();
@@ -22,7 +25,11 @@ public class RequestViewer {
         response.append(" и телом ");
         response.append(getBody(request));
 
-        System.out.println(response.toString());
+        history.add(response.toString());
+
+        for (String storedResponse : history) {
+            System.out.println(storedResponse);
+        }
     }
 
     private String getHeaders(HttpServletRequest request) {
